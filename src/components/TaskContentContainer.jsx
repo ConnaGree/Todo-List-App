@@ -8,10 +8,17 @@ const TaskContentContainer = () => {
   const {taskItems, setTaskItems} = useContext(TaskContext)
 
   return (
-    <div>
-      <Reorder.Group values={taskItems} onReorder={setTaskItems}>
+    <div className="task-list">
+      <Reorder.Group
+        values={taskItems}
+        onReorder={setTaskItems}
+        className="space-y-4"
+      >
         {taskItems.length === 0 ? (
-          <p className="text-center">No tasks so far...</p>
+          <div className="empty-state">
+            <p>No tasks yet.</p>
+            <span>Add a task above to get started.</span>
+          </div>
         ) : (
           taskItems.map((taskItem) => (
             <Reorder.Item value={taskItem} key={taskItem.id}>

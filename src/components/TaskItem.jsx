@@ -1,18 +1,36 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext } from "react";
 import { IoCheckmarkOutline } from "react-icons/io5";
 import { FiEdit } from "react-icons/fi";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { GoTrash } from "react-icons/go";
-import { TaskContext } from '../TaskContext';
+import { TaskContext } from "../TaskContext";
 
-const TaskItem = ({taskItem}) => {
-  const { taskItems, setTaskItems, handleEditTask, handleDeleteTask} = useContext(TaskContext);
+const TaskItem = ({ taskItem }) => {
+  const { taskItems, setTaskItems, handleEditTask, handleDeleteTask } =
+    useContext(TaskContext);
   const [controlToggle, setControlToggle] = useState(false);
 
-  // Due Date Calculation
-  const isOverdue = new Date(taskItem.dueDate) < new Date();
-  
-  // Check Task
+  const hasDueDate =
+    taskItem.dueDate && taskItem.dueDate !== "No Due Date" ? true : false;
+  const dueDate = hasDueDate ? new Date(taskItem.dueDate) : null;
+  const now = new Date();
+  const isOverdue = hasDueDate ? dueDate < now : false;
+
+  const formattedDueDate = dueDate
+    ? dueDate.toLocaleDateString(undefined, {
+        month: "short",
+        day: "numeric",
+      })
+    : "No due date";
+
+  const dueLabel = hasDueDate
+    ? isOverdue
+      ? `Overdue • ${formattedDueDate}`
+      : `Due ${formattedDueDate}`
+    : "No due date";
+
+  const dueState = hasDueDate ? (isOverdue ? "danger" : "success") : "idle";
+
   const handleCheck = () => {
     const updatedItems = taskItems.map((item) =>
       item.id === taskItem.id
@@ -22,59 +40,49 @@ const TaskItem = ({taskItem}) => {
     setTaskItems(updatedItems);
   };
 
-
-
   return (
-    <div className="flex items-center justify-between border-[1px] p-[1rem] mb-[1rem]">
-      <div className="left__section">
-        <div className="task__desc flex items-center gap-[1rem]">
-          <div
-            className="check__box w-[30px] h-[30px] border-[1px]"
-            onClick={handleCheck}
-          >
-            {taskItem.checked ? (
-              <span className="w-full h-full bg-blue-600 p-1 flex shrink-0 items-center justify-center text-white">
-                <IoCheckmarkOutline />
-              </span>
-            ) : (
-              ""
-            )}
-          </div>
-          <span
-            className={`${
-              taskItem.checked ? "line-through text-gray-500" : ""
-            } flex items-center gap-[1rem] text-[.8rem]`}
-          >
-            {taskItem.value}{" "}
-            <span className="date text-[.8rem] text-gray-400">{`created on ${taskItem.date}`}</span>
-          </span>
-        </div>
-        <div className="flex items-center mt-4 gap-4">
-          <span
-            className={`task-priority w-[100px] text-[.8rem] ml-[3rem] px-[1rem] py-[.3rem] rounded-[50px] text-white ${taskItem.priority}`}
-          >
-            {taskItem.priority}
-          </span>{" "}
-          <span
-            className={`w-[150px] text-[.8rem] px-[1rem] py-[.3rem] rounded-[50px] ${
-              isOverdue ? "bg-red-500" : "bg-green-500"
+    <article className="task-card">
+      <div className="task-card__left">
+        <button
+          onClick={handleCheck}
+          className={`check-toggle ${taskItem.checked ? "checked" : ""}`}
+          aria-label={taskItem.checked ? "Mark as incomplete" : "Mark as done"}
+        >
+          {taskItem.checked && <IoCheckmarkOutline />}
+        </button>
+        <div className="task-card__content">
+          <p
+            className={`task-card__title ${
+              taskItem.checked ? "completed" : ""
             }`}
           >
-            Due {taskItem.dueDate}
-          </span>
+            {taskItem.value}
+          </p>
+          <span className="task-card__meta">{`Created on ${taskItem.date}`}</span>
+          <div className="task-card__pills">
+            <span
+              className={`priority-chip ${taskItem.priority?.toLowerCase()}`}
+            >
+              {taskItem.priority} priority
+            </span>
+            <span className={`due-chip ${dueState}`}>{dueLabel}</span>
+          </div>
         </div>
       </div>
+
       <div className="controls__container">
         <div className="controls hidden md:flex items-center gap-[.8rem]">
           <button
             onClick={() => handleEditTask(taskItem)}
-            className="edit__btn p-2 text-white text-[1.2rem]"
+            className="icon-btn"
+            aria-label="Edit task"
           >
             <FiEdit />
           </button>
           <button
             onClick={() => handleDeleteTask(taskItem)}
-            className="delete__btn p-2  text-white text-[1.2rem]"
+            className="icon-btn danger"
+            aria-label="Delete task"
           >
             <GoTrash />
           </button>
@@ -82,22 +90,23 @@ const TaskItem = ({taskItem}) => {
 
         <div className="mobile__controls-container md:hidden relative">
           <span
-            onClick={() => setControlToggle(true)}
+            onClick={() => setControlToggle((prev) => !prev)}
             className="toggle__btn text-[1.2rem] cursor-pointer"
+            aria-label="Open task actions"
           >
             <BiDotsVerticalRounded />
           </span>
           {controlToggle && (
-            <div className="mobile__controls-board absolute top-[1rem] right-[.6rem] bg-[#212733] shadow p-[1rem] rounded-[.5rem]">
+            <div className="mobile__controls-board">
               <button
                 onClick={() => handleEditTask(taskItem)}
-                className="edit__btn p-2 text-white text-[1.2rem]"
+                className="icon-btn"
               >
                 <FiEdit />
               </button>
               <button
                 onClick={() => handleDeleteTask(taskItem)}
-                className="delete__btn p-2  text-white text-[1.2rem]"
+                className="icon-btn danger"
               >
                 <GoTrash />
               </button>
@@ -105,9 +114,8 @@ const TaskItem = ({taskItem}) => {
           )}
         </div>
       </div>
-    </div>
+    </article>
   );
-
-}
+};
 
 export default TaskItem;

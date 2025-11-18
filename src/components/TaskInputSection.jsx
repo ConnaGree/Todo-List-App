@@ -13,39 +13,32 @@ const TaskInputSection = () => {
     } = useContext(TaskContext);
 
   return (
-    <div>
-      <label
-        className="flex flex-wrap justify-between items-center gap-[1rem]"
-        htmlFor=""
+    <div className="task-input-grid">
+      <input
+        value={inputTaskItem}
+        onChange={(e) => setInputTaskItem(e.target.value)}
+        type="text"
+        className="task-field col-span-2 md:col-span-3"
+        placeholder="Capture a new task..."
+      />
+      <select
+        value={priority}
+        onChange={(e) => setPriority(e.target.value)}
+        className="task-field"
       >
-        <input
-          value={inputTaskItem}
-          onChange={(e) => setInputTaskItem(e.target.value)}
-          type="text"
-          className="flex-1 px-[2rem] py-[1rem] border-[1px] bg-[#212733]"
-          placeholder="Type in your upcoming tasks..."
-        />
-        <select
-          value={priority}
-          onChange={(e) => setPriority(e.target.value)}
-          className="px-[2rem] text-[.9rem] py-[1rem] border-[1px] bg-[#212733]"
-        >
-          <option value="Low">Low</option>
-          <option value="Medium">Medium</option>
-          <option value="High">High</option>
-        </select>
-        <input
-          type="date"
-          className="px-[2rem] py-[1rem] text-[.9rem] border-[1px] bg-[#212733]"
-          onChange={(e) => setDueDate(e.target.value)}
-        />
-        <button
-          onClick={handleAddTaskItem}
-          className="w-full flex items-center justify-center py-[1rem] px-[1rem] bg-blue-600 text-white text-[1.5rem] font-[700]"
-        >
-          <GoPlus />
-        </button>
-      </label>
+        <option value="Low">Low priority</option>
+        <option value="Medium">Medium priority</option>
+        <option value="High">High priority</option>
+      </select>
+      <input
+        type="date"
+        className="task-field"
+        onChange={(e) => setDueDate(e.target.value)}
+      />
+      <button onClick={handleAddTaskItem} className="primary-btn w-full">
+        <GoPlus />
+        Add task
+      </button>
     </div>
   );
 }

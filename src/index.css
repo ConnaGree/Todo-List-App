@@ -5,20 +5,20 @@
 @tailwind utilities;
 
 body {
-    background: #212733;
-    color: white;
-    font-family: 'Poppins', sans-serif;
-    position: relative;
+  min-height: 100vh;
+  background: radial-gradient(circle at top, rgba(56, 189, 248, 0.2), transparent 45%),
+    radial-gradient(circle at bottom, rgba(14, 165, 233, 0.15), transparent 40%),
+    #0b1120;
+  color: #f8fafc;
+  font-family: 'Poppins', sans-serif;
+  position: relative;
+  margin: 0;
 }
 
-.task-priority.Low {
-  background-color: #00ab00;
-}
-
-.task-priority.Medium {
-  background-color: #fcb500;
-}
-
-.task-priority.High {
-  background-color: #ff0606;
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle, rgba(14, 165, 233, 0.12), transparent 55%);
+  pointer-events: none;
 }
