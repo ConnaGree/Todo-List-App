@@ -1,16 +1,17 @@
 import { useContext } from "react";
 import { TaskContext } from "../TaskContext";
 import { GoPlus } from "react-icons/go";
+import PriorityDropdown from "./PriorityDropdown";
 
 const TaskInputSection = () => {
-    const {
-      inputTaskItem,
-      priority,
-      setInputTaskItem,
-      setPriority,
-      setDueDate,
-      handleAddTaskItem,
-    } = useContext(TaskContext);
+  const {
+    inputTaskItem,
+    priority,
+    setInputTaskItem,
+    setPriority,
+    setDueDate,
+    handleAddTaskItem,
+  } = useContext(TaskContext);
 
   return (
     <div className="task-input-grid">
@@ -21,15 +22,10 @@ const TaskInputSection = () => {
         className="task-field col-span-2 md:col-span-3"
         placeholder="Capture a new task..."
       />
-      <select
+      <PriorityDropdown
         value={priority}
-        onChange={(e) => setPriority(e.target.value)}
-        className="task-field"
-      >
-        <option value="Low">Low priority</option>
-        <option value="Medium">Medium priority</option>
-        <option value="High">High priority</option>
-      </select>
+        onChange={setPriority}
+      />
       <input
         type="date"
         className="task-field"

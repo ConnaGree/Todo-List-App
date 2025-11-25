@@ -1,9 +1,10 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useRef } from "react";
 import {
   PiPauseFill,
   PiPlayFill,
   PiArrowCounterClockwiseBold,
 } from "react-icons/pi";
+import alarmSound from "../assets/alarm.mp3";
 
 const PRESETS = [
   { label: "Quick (15m)", minutes: 15 },
@@ -23,6 +24,7 @@ const FocusTimer = () => {
   const [initialDuration, setInitialDuration] = useState(25 * 60);
   const [isRunning, setIsRunning] = useState(false);
   const [hasFinished, setHasFinished] = useState(false);
+  const audioRef = useRef(null);
 
   const formattedTime = useMemo(() => {
     const mins = String(Math.floor(timeLeft / 60)).padStart(2, "0");
@@ -35,6 +37,7 @@ const FocusTimer = () => {
     return (timeLeft / initialDuration) * 100;
   }, [timeLeft, initialDuration]);
 
+  // Timer countdown effect
   useEffect(() => {
     if (!isRunning) return;
     if (timeLeft === 0) {
@@ -49,6 +52,32 @@ const FocusTimer = () => {
 
     return () => clearInterval(interval);
   }, [isRunning, timeLeft]);
+
+  // Play alarm when timer finishes
+  useEffect(() => {
+    if (hasFinished && audioRef.current) {
+      audioRef.current.play().catch(err => console.error("Error playing alarm:", err));
+    }
+  }, [hasFinished]);
+
+  // Auto-reset after 2 minutes when timer finishes
+  useEffect(() => {
+    if (!hasFinished) return;
+
+    const resetTimeout = setTimeout(() => {
+      handleReset();
+    }, 2 * 60 * 1000); // 2 minutes in milliseconds
+
+    return () => clearTimeout(resetTimeout);
+  }, [hasFinished]);
+
+  // Stop alarm when reset
+  useEffect(() => {
+    if (!hasFinished && audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
+  }, [hasFinished]);
 
   useEffect(() => {
     if (isRunning) return;
@@ -93,9 +122,8 @@ const FocusTimer = () => {
           <h2>Set the tone for deep work</h2>
         </div>
         <span
-          className={`status-chip ${
-            hasFinished ? "success" : isRunning ? "active" : "idle"
-          }`}
+          className={`status-chip ${hasFinished ? "success" : isRunning ? "active" : "idle"
+            }`}
         >
           {hasFinished ? "Complete" : isRunning ? "Running" : "Ready"}
         </span>
@@ -104,7 +132,9 @@ const FocusTimer = () => {
       <div
         className="timer-progress"
         style={{
-          background: `conic-gradient(#38bdf8 ${progress * 3.6}deg, rgba(148,163,184,.15) 0deg)`,
+          background: timeLeft <= 300 && timeLeft > 0
+            ? `conic-gradient(#fb7185 ${progress * 3.6}deg, rgba(251,113,133,.15) 0deg)`
+            : `conic-gradient(#38bdf8 ${progress * 3.6}deg, rgba(148,163,184,.15) 0deg)`,
         }}
       >
         <div className="timer-progress__inner">
@@ -174,6 +204,9 @@ const FocusTimer = () => {
           Reset
         </button>
       </div>
+
+      {/* Hidden audio element for alarm */}
+      <audio ref={audioRef} src={alarmSound} />
     </section>
   );
 };

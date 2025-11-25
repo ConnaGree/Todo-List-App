@@ -417,6 +417,176 @@
   flex-wrap: wrap;
 }
 
+/* Custom Priority Dropdown */
+.custom-dropdown {
+  position: relative;
+  width: 100%;
+}
+
+.custom-dropdown__trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  padding: 0.9rem 1rem;
+  background: rgba(15, 23, 42, 0.6);
+  color: var(--text);
+  font-size: 0.95rem;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
+
+.custom-dropdown__trigger:hover {
+  border-color: rgba(56, 189, 248, 0.4);
+}
+
+.custom-dropdown__trigger:focus {
+  outline: none;
+  border-color: rgba(56, 189, 248, 0.5);
+  box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2);
+}
+
+.custom-dropdown__trigger-content {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.custom-dropdown__arrow {
+  color: var(--muted);
+  transition: transform 0.2s ease;
+}
+
+.custom-dropdown__arrow.open {
+  transform: rotate(180deg);
+}
+
+.custom-dropdown__menu {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  left: 0;
+  right: 0;
+  background: rgba(15, 23, 42, 0.95);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  padding: 0.5rem;
+  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.5);
+  backdrop-filter: blur(16px);
+  z-index: 100;
+  animation: dropdownFadeIn 0.2s ease;
+}
+
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.custom-dropdown__option {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  background: transparent;
+  border: none;
+  color: var(--text);
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  position: relative;
+}
+
+.custom-dropdown__option:hover {
+  background: rgba(56, 189, 248, 0.1);
+}
+
+.custom-dropdown__option.selected {
+  background: rgba(56, 189, 248, 0.15);
+}
+
+.custom-dropdown__check {
+  margin-left: auto;
+  color: var(--primary);
+}
+
+/* Modal Styles */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: backdropFadeIn 0.2s ease;
+}
+
+@keyframes backdropFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modal-content {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 1.5rem;
+  padding: 2rem;
+  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.5);
+  backdrop-filter: blur(16px);
+  max-width: 600px;
+  width: 90%;
+  animation: modalSlideIn 0.3s ease;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.modal-content h1 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: var(--text);
+}
+
+.modal-content__fields {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.modal-content__actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
 @media (max-width: 768px) {
   .task-card {
     flex-direction: column;
@@ -426,4 +596,5 @@
     grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
   }
 }
+
 
