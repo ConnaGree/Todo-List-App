@@ -33,7 +33,7 @@ function App() {
         <section className="tasks-panel">
           <div className="section-heading">
             <h2>Task_Log</h2>
-            <span className="status-chip active">STATUS: ONLINE</span>
+            <span className="status-chip active">STATUS: <span className="status-chip__text">ONLINE</span></span>
           </div>
           <TaskInputSection />
           <div className="tasks__container">
