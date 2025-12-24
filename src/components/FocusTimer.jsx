@@ -178,7 +178,7 @@ const FocusTimer = () => {
 
       <div className="timer-actions">
         {isRunning ? (
-          <button className="primary-btn" onClick={handlePause} style={{ width: '100%' }}>
+          <button className="primary-btn flex items-center gap-3" onClick={handlePause} style={{ width: '100%' }}>
             <PiPauseFill />
             PAUSE
           </button>
