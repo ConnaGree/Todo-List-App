@@ -18,9 +18,9 @@ const TaskItem = ({ taskItem }) => {
 
   const formattedDueDate = dueDate
     ? dueDate.toLocaleDateString(undefined, {
-        month: "short",
-        day: "numeric",
-      })
+      month: "short",
+      day: "numeric",
+    })
     : "No due date";
 
   const dueLabel = hasDueDate
@@ -42,78 +42,45 @@ const TaskItem = ({ taskItem }) => {
 
   return (
     <article className="task-card">
-      <div className="task-card__left">
-        <button
-          onClick={handleCheck}
-          className={`check-toggle ${taskItem.checked ? "checked" : ""}`}
-          aria-label={taskItem.checked ? "Mark as incomplete" : "Mark as done"}
-        >
-          {taskItem.checked && <IoCheckmarkOutline />}
-        </button>
-        <div className="task-card__content">
-          <p
-            className={`task-card__title ${
-              taskItem.checked ? "completed" : ""
-            }`}
-          >
-            {taskItem.value}
-          </p>
-          <span className="task-card__meta">{`Created on ${taskItem.date}`}</span>
-          <div className="task-card__pills">
-            <span
-              className={`priority-chip ${taskItem.priority?.toLowerCase()}`}
-            >
-              {taskItem.priority} priority
-            </span>
-            <span className={`due-chip ${dueState}`}>{dueLabel}</span>
-          </div>
-        </div>
-      </div>
+      <button
+        onClick={handleCheck}
+        className={`check-toggle ${taskItem.checked ? "checked" : ""}`}
+        aria-label={taskItem.checked ? "Mark as incomplete" : "Mark as done"}
+      >
+        {taskItem.checked && <IoCheckmarkOutline />}
+      </button>
 
-      <div className="controls__container">
-        <div className="controls hidden md:flex items-center gap-[.8rem]">
-          <button
-            onClick={() => handleEditTask(taskItem)}
-            className="icon-btn"
-            aria-label="Edit task"
-          >
-            <FiEdit />
-          </button>
-          <button
-            onClick={() => handleDeleteTask(taskItem)}
-            className="icon-btn danger"
-            aria-label="Delete task"
-          >
-            <GoTrash />
-          </button>
+      <div className="task-card__content">
+        <p className={`task-card__title ${taskItem.checked ? "completed" : ""}`} style={{ fontSize: '1.2rem', fontWeight: '700' }}>
+          {taskItem.value.toUpperCase()}
+        </p>
+        <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.5rem' }}>
+          <span className="task-card__meta">{`CREATED: ${taskItem.date}`}</span>
+          {hasDueDate && <span className={`task-card__meta`} style={{ fontWeight: 'bold' }}>{`// DUE: ${formattedDueDate}`}</span>}
         </div>
 
-        <div className="mobile__controls-container md:hidden relative">
-          <span
-            onClick={() => setControlToggle((prev) => !prev)}
-            className="toggle__btn text-[1.2rem] cursor-pointer"
-            aria-label="Open task actions"
-          >
-            <BiDotsVerticalRounded />
+        <div className="task-card__pills">
+          <span className={`priority-chip ${taskItem.priority?.toLowerCase()}`}>
+            [{taskItem.priority}]
           </span>
-          {controlToggle && (
-            <div className="mobile__controls-board">
-              <button
-                onClick={() => handleEditTask(taskItem)}
-                className="icon-btn"
-              >
-                <FiEdit />
-              </button>
-              <button
-                onClick={() => handleDeleteTask(taskItem)}
-                className="icon-btn danger"
-              >
-                <GoTrash />
-              </button>
-            </div>
-          )}
+          {isOverdue && <span className="priority-chip high">OVERDUE</span>}
         </div>
       </div>
+
+      <button
+        onClick={() => handleEditTask(taskItem)}
+        className="icon-btn"
+        aria-label="Edit task"
+      >
+        <FiEdit />
+      </button>
+      <button
+        onClick={() => handleDeleteTask(taskItem)}
+        className="icon-btn danger"
+        aria-label="Delete task"
+      >
+        <GoTrash />
+      </button>
     </article>
   );
 };

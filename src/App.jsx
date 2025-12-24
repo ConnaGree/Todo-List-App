@@ -9,30 +9,31 @@ function App() {
   return (
     <TaskProvider>
       <main className="app-shell">
-        <section className="page-header">
-          <div className="hero-card glass-panel">
-            <p className="eyebrow">Plan • Prioritize • Focus</p>
-            <h1>Modern task board for ambitious days</h1>
-            <p className="hero-copy">
-              Collect tasks, assign priority, set due dates, and carve out
-              intentional focus blocks with the built-in timer.
-            </p>
-            <div className="hero-tags">
-              <span>Smart priorities</span>
-              <span>Drag & drop</span>
-              <span>Local autosave</span>
-            </div>
+        <header className="page-header">
+          <div className="hero-card">
+            <h1>Todo_Brutal</h1>
+            <p className="eyebrow">v1.0.0 // SYSTEM_READY</p>
           </div>
-          <FocusTimer />
-        </section>
+          <div className="hero-tags">
+            <span>#STRICT_MODE</span>
+            <span>#NO_BS</span>
+          </div>
+        </header>
 
-        <section className="tasks-panel glass-panel">
+        <aside className="left-panel">
+          <FocusTimer />
+          <div style={{ marginTop: '2rem' }}>
+             <p className="hero-copy">
+              Collect tasks. Assign priority. 
+              Execute with extreme prejudice.
+            </p>
+          </div>
+        </aside>
+
+        <section className="tasks-panel">
           <div className="section-heading">
-            <div>
-              <p className="eyebrow">Task Board</p>
-              <h2>Stay on top of what matters</h2>
-            </div>
-            <span className="status-chip idle">Drag to reorder</span>
+            <h2>Task_Log</h2>
+            <span className="status-chip active">STATUS: ONLINE</span>
           </div>
           <TaskInputSection />
           <div className="tasks__container">

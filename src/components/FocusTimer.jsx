@@ -115,39 +115,27 @@ const FocusTimer = () => {
   };
 
   return (
-    <section className="focus-timer glass-panel" aria-label="Focus timer">
-      <div className="section-heading">
-        <div>
-          <p className="eyebrow">Focus Timer</p>
-          <h2>Set the tone for deep work</h2>
-        </div>
-        <span
-          className={`status-chip ${hasFinished ? "success" : isRunning ? "active" : "idle"
-            }`}
-        >
-          {hasFinished ? "Complete" : isRunning ? "Running" : "Ready"}
-        </span>
-      </div>
-
-      <div
-        className="timer-progress"
-        style={{
-          background: timeLeft <= 300 && timeLeft > 0
-            ? `conic-gradient(#fb7185 ${progress * 3.6}deg, rgba(251,113,133,.15) 0deg)`
-            : `conic-gradient(#38bdf8 ${progress * 3.6}deg, rgba(148,163,184,.15) 0deg)`,
-        }}
-      >
-        <div className="timer-progress__inner">
-          <span className="timer-progress__value">{formattedTime}</span>
-          <span className="timer-progress__label">
-            {isRunning ? "Remaining" : "Planned"}
+    <section className="focus-timer brutal-box" aria-label="Focus timer">
+      <div className="section-heading" style={{ borderBottom: '2px solid #000', paddingBottom: '0.5rem', marginBottom: '1rem' }}>
+        <p className="eyebrow">FOCUS_MODULE</p>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <span style={{ fontWeight: 'bold' }}>TIMER_STATUS:</span>
+          <span style={{ background: isRunning ? '#ff3333' : '#eee', color: isRunning ? '#fff' : '#000', padding: '0 0.5rem', fontWeight: 'bold' }}>
+            {hasFinished ? "DONE" : isRunning ? "RUNNING" : "IDLE"}
           </span>
         </div>
       </div>
 
-      <div className="timer-inputs">
-        <label className="timer-input">
-          <span>Minutes</span>
+      <div className="timer-display" style={{ display: 'grid', placeItems: 'center', border: '4px solid #000', padding: '2rem', marginBottom: '1.5rem', background: isRunning ? '#fff' : '#f0f0f0' }}>
+        <span style={{ fontSize: '3rem', fontWeight: '700', lineHeight: 1 }}>{formattedTime}</span>
+        <span style={{ fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
+          {isRunning ? "Time Remaining" : "Target Duration"}
+        </span>
+      </div>
+
+      <div className="timer-inputs" style={{ marginBottom: '1.5rem' }}>
+        <div className="timer-input">
+          <span>MINUTES</span>
           <input
             type="number"
             min="0"
@@ -155,10 +143,12 @@ const FocusTimer = () => {
             value={minutes}
             onChange={(e) => setMinutes(clamp(Number(e.target.value), 0, 180))}
             disabled={isRunning}
+            className="task-field"
+            style={{ border: '2px solid #000', backgroundColor: '#fff' }}
           />
-        </label>
-        <label className="timer-input">
-          <span>Seconds</span>
+        </div>
+        <div className="timer-input">
+          <span>SECONDS</span>
           <input
             type="number"
             min="0"
@@ -166,42 +156,46 @@ const FocusTimer = () => {
             value={seconds}
             onChange={(e) => setSeconds(clamp(Number(e.target.value), 0, 59))}
             disabled={isRunning}
+            className="task-field"
+            style={{ border: '2px solid #000', backgroundColor: '#fff' }}
           />
-        </label>
+        </div>
       </div>
 
-      <div className="timer-presets">
+      <div className="timer-presets" style={{ marginBottom: '1.5rem' }}>
         {PRESETS.map((preset) => (
           <button
             key={preset.label}
             onClick={() => applyPreset(preset.minutes)}
-            className="pill-btn"
+            className="primary-btn"
+            style={{ background: '#fff', color: '#000', fontSize: '0.75rem', padding: '0.5rem' }}
             disabled={isRunning}
           >
-            {preset.label}
+            [{preset.label}]
           </button>
         ))}
       </div>
 
       <div className="timer-actions">
         {isRunning ? (
-          <button className="primary-btn" onClick={handlePause}>
+          <button className="primary-btn" onClick={handlePause} style={{ width: '100%' }}>
             <PiPauseFill />
-            Pause
+            PAUSE
           </button>
         ) : (
           <button
-            className="primary-btn"
+            className="primary-btn flex items-center gap-3"
             onClick={handleStart}
             disabled={timeLeft === 0}
+            style={{ width: '100%' }}
           >
             <PiPlayFill />
-            Start
+            INITIALIZE
           </button>
         )}
-        <button className="secondary-btn" onClick={handleReset}>
+        <button className="icon-btn" onClick={handleReset} style={{ width: '100%', marginTop: '0.5rem' }}>
           <PiArrowCounterClockwiseBold />
-          Reset
+          RESET_SYSTEM
         </button>
       </div>
 
