@@ -9,21 +9,21 @@ import {
 const PRIORITY_OPTIONS = [
     {
         value: "Low",
-        label: "Low priority",
+        label: "LOW_PRIORITY",
         icon: PiCheckCircleFill,
-        color: "#34d399"
+        color: "#111"
     },
     {
         value: "Medium",
-        label: "Medium priority",
+        label: "MED_PRIORITY",
         icon: PiWarningCircleFill,
-        color: "#fbbf24"
+        color: "#111"
     },
     {
         value: "High",
-        label: "High priority",
+        label: "HIGH_PRIORITY",
         icon: PiWarningFill,
-        color: "#fb7185"
+        color: "#ff3333"
     },
 ];
 
@@ -61,13 +61,14 @@ const PriorityDropdown = ({ value, onChange, className = "" }) => {
                 type="button"
                 className="custom-dropdown__trigger"
                 onClick={() => setIsOpen(!isOpen)}
+                style={{ borderRadius: 0, border: '2px solid #000' }}
             >
                 <div className="custom-dropdown__trigger-content">
                     <selectedOption.icon
                         style={{ color: selectedOption.color }}
                         size={18}
                     />
-                    <span>{selectedOption.label}</span>
+                    <span style={{ fontWeight: '700' }}>{selectedOption.label}</span>
                 </div>
                 <PiArrowDownBold
                     className={`custom-dropdown__arrow ${isOpen ? "open" : ""}`}
@@ -76,7 +77,7 @@ const PriorityDropdown = ({ value, onChange, className = "" }) => {
             </button>
 
             {isOpen && (
-                <div className="custom-dropdown__menu">
+                <div className="custom-dropdown__menu" style={{ borderRadius: 0, border: '2px solid #000', boxShadow: '4px 4px 0 #000', display: 'flex', flexDirection: 'column' }}>
                     {PRIORITY_OPTIONS.map((option) => {
                         const Icon = option.icon;
                         const isSelected = option.value === value;
@@ -87,13 +88,15 @@ const PriorityDropdown = ({ value, onChange, className = "" }) => {
                                 type="button"
                                 className={`custom-dropdown__option ${isSelected ? "selected" : ""}`}
                                 onClick={() => handleSelect(option)}
+                                style={{ borderRadius: 0 }}
                             >
                                 <Icon style={{ color: option.color }} size={18} />
-                                <span>{option.label}</span>
+                                <span style={{ fontWeight: '700' }}>{option.label}</span>
                                 {isSelected && (
                                     <PiCheckCircleFill
                                         className="custom-dropdown__check"
                                         size={16}
+                                        style={{ color: '#000' }}
                                     />
                                 )}
                             </button>

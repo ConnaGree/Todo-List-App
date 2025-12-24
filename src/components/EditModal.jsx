@@ -19,15 +19,16 @@ const EditModal = () => {
   return (
     <div className="modal-backdrop">
       <div className="modal-content">
-        <h1>Edit Task</h1>
+        <h1>MODIFY_TASK_PARAMETERS</h1>
 
         <div className="modal-content__fields">
           <input
             className="task-field"
             type="text"
-            placeholder="Task name..."
+            placeholder="TASK_DESIGNATION..."
             value={currentTask.value}
             onChange={(e) => handleInputUpdate(e)}
+            style={{ border: '2px solid #000' }}
           />
 
           <PriorityDropdown
@@ -40,6 +41,7 @@ const EditModal = () => {
             className="task-field"
             value={currentTask.dueDate}
             onChange={handleDateUpdate}
+            style={{ border: '2px solid #000' }}
           />
         </div>
 
@@ -48,13 +50,14 @@ const EditModal = () => {
             onClick={handleSaveTask}
             className="primary-btn"
           >
-            Save Changes
+            CONFIRM_EDITS
           </button>
           <button
             onClick={handleCancelEdit}
-            className="secondary-btn"
+            className="primary-btn"
+            style={{ background: '#fff', color: '#000' }}
           >
-            Cancel
+            ABORT
           </button>
         </div>
       </div>

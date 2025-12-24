@@ -20,7 +20,7 @@ const TaskInputSection = () => {
         onChange={(e) => setInputTaskItem(e.target.value)}
         type="text"
         className="task-field col-span-2 md:col-span-3"
-        placeholder="Capture a new task..."
+        placeholder="ENTER_OBJECTIVE..."
       />
       <PriorityDropdown
         value={priority}
@@ -31,9 +31,9 @@ const TaskInputSection = () => {
         className="task-field"
         onChange={(e) => setDueDate(e.target.value)}
       />
-      <button onClick={handleAddTaskItem} className="primary-btn w-full">
+      <button onClick={handleAddTaskItem} className="primary-btn w-full flex items-center gap-3">
         <GoPlus />
-        Add task
+        INITIALIZE_TASK
       </button>
     </div>
   );
